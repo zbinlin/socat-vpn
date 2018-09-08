@@ -1,0 +1,22 @@
+# Common configuration
+PORT=8443
+TUN_NAME=tun128
+
+
+# Server configuration
+SERVER_CERT=/etc/socat-vpn/server.crt
+SERVER_KEY=/ect/socat-vpn/server.key
+SERVER_CA=/etc/socat-vpn/server-ca.pem
+SERVER_ADDR=192.168.128.1/24
+
+
+# Client configuration
+HOSTNAME=socat-vpn.example.org
+CLIENT_CERT=/etc/socat-vpn/client.crt
+CLIENT_KEY=/etc/socat-vpn/client.key
+CLIENT_CA=/etc/socat-vpn/client-ca.pem
+CLIENT_ADDR=192.168.128.2/24
+COMMON_NAME=127.0.0.1
+
+TABLE_ID=1024
+PRIORITY=1024
