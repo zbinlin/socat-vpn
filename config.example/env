@@ -3,7 +3,7 @@ PORT=8443
 TUN_NAME=tun128
 MTU=1420
 
-DEBUG=-d
+DEBUG='-d'
 
 
 # Server configuration

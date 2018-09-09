@@ -73,7 +73,7 @@ yum install -y socat
 
 把 `socat-vpn-server.service` 复制到 `/etc/systemd/system/` 下，或者直接下载：
 
-```
+```bash
 curl -sSL https://raw.githubusercontent.com/zbinlin/socat-vpn/master/socat-vpn-server.service | sudo tee /etc/systemd/system/socat-vpn-server.service >/dev/null
 ```
 
