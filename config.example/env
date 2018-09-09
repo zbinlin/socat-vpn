@@ -5,7 +5,7 @@ TUN_NAME=tun128
 
 # Server configuration
 SERVER_CERT=/etc/socat-vpn/server.crt
-SERVER_KEY=/ect/socat-vpn/server.key
+SERVER_KEY=/etc/socat-vpn/server.key
 SERVER_CA=/etc/socat-vpn/server-ca.pem
 SERVER_ADDR=192.168.128.1/24
 
