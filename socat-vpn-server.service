@@ -5,7 +5,8 @@ Description=Socat VPN Server
 Type=simple
 EnvironmentFile=/etc/socat-vpn/env
 ExecStart=/usr/bin/socat ${DEBUG} OPENSSL-LISTEN:${PORT},reuseaddr,fork,cert=${SERVER_CERT},key=${SERVER_KEY},cafile=${SERVER_CA} TUN:${SERVER_ADDR},tun-name=${TUN_NAME},iff-up
-ExecStartPost=/sbin/iptables -t filter -A FORWARD -i ${TUN_NAME} -j ACCEPT ; \
+ExecStartPost=/bin/ip link set dev ${TUN_NAME} mtu ${MTU} ; \
+              /sbin/iptables -t filter -A FORWARD -i ${TUN_NAME} -j ACCEPT ; \
               /sbin/iptables -t filter -A FORWARD -o ${TUN_NAME} -m state --state RELATED,ESTABLISHED -j ACCEPT
 ExecStopPost=/sbin/iptables -t filter -D FORWARD -i ${TUN_NAME} -j ACCEPT ; \
              /sbin/iptables -t filter -D FORWARD -o ${TUN_NAME} -m state --state RELATED,ESTABLISHED -j ACCEPT
