@@ -2,6 +2,8 @@
 PORT=8443
 TUN_NAME=tun128
 
+DEBUG=-d
+
 
 # Server configuration
 SERVER_CERT=/etc/socat-vpn/server.crt
