@@ -6,6 +6,7 @@ Type=simple
 EnvironmentFile=/etc/socat-vpn/env
 ExecStart=/usr/bin/socat -d TUN:${CLIENT_ADDR},tun-name=${TUN_NAME},iff-up OPENSSL-CONNECT:${HOSTNAME}:${PORT},cert=${CLIENT_CERT},key=${CLIENT_KEY},cafile=${CLIENT_CA},commonName=${COMMON_NAME}
 ExecStartPost=/bin/ip rule add table ${TABLE_ID} ; \
+              /bin/ip rule add to ${HOSTNAME} pref ${PRIORITY} ; \
               /bin/ip rule add to 0.0.0.0/8 pref ${PRIORITY} ; \
               /bin/ip rule add to 10.0.0.0/8 pref ${PRIORITY} ; \
               /bin/ip rule add to 100.64.0.0/10 pref ${PRIORITY} ; \
@@ -15,8 +16,9 @@ ExecStartPost=/bin/ip rule add table ${TABLE_ID} ; \
               /bin/ip rule add to 198.18.0.0/15 pref ${PRIORITY} ; \
               /bin/ip rule add to 224.0.0.0/4 pref ${PRIORITY} ; \
               /bin/ip rule add to 255.255.255.255/32 pref ${PRIORITY} ; \
-              /bin/ip route add default dev ${TUN_NAME} via ${CLIENT_ADDR} table ${TABLE_ID}
+              /bin/sh -c 'ip route add default dev ${TUN_NAME} via $${CLIENT_ADDR%/*} table ${TABLE_ID}'
 ExecStopPost=/bin/ip rule del table ${TABLE_ID} ; \
+             /bin/ip rule del to ${HOSTNAME} pref ${PRIORITY} ; \
              /bin/ip rule del to 0.0.0.0/8 pref ${PRIORITY} ; \
              /bin/ip rule del to 10.0.0.0/8 pref ${PRIORITY} ; \
              /bin/ip rule del to 100.64.0.0/10 pref ${PRIORITY} ; \
