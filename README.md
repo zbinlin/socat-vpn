@@ -115,10 +115,27 @@ openssl req -new -key - -x509 -days 3653 \
   -config <( \
     printf "[req]\ndistinguished_name = RDN\n[RDN]" \
   ) | \
-tee /etc/socat-vpn/server.crt
+sudo tee /etc/socat-vpn/server.crt
 ```
 
 运行上面的命令后，会在 `/etc/socat-vpn` 生成 `server.key` 和 `server.crt`，同时把 `server.crt` 内容输出到终端，这时，要输出的 `server.crt` 内容保存在本地的 `/etc/socat-vpn/client-ca.pem` 里。
+
+如果运行命令时报以下错误：
+
+>Error opening Private Key -
+>139883511314320:error:02001002:system library:fopen:No such file or directory:bss_file.c:402:fopen('-','r')
+>139883511314320:error:20074002:BIO routines:FILE_CTRL:system lib:bss_file.c:404:
+
+可以使用以下命令：
+
+```bash
+openssl req -new -key <(openssl genrsa 2048 2>/dev/null | sudo tee /etc/socat-vpn/server.key) -x509 -days 3653 \
+  -subj '/CN=127.0.0.1' \
+  -config <( \
+    printf "[req]\ndistinguished_name = RDN\n[RDN]" \
+  ) | \
+sudo tee /etc/socat-vpn/server.crt
+```
 
 
 客户端
@@ -149,3 +166,8 @@ sudo tee /etc/socat-vpn/client.crt
 
 
 **先启动服务端再启动客户端，要不客户端启动时连接不上会报错。**
+
+
+## 限制
+
+服务端当前仅能支持一个客户端在线
