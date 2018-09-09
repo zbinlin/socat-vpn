@@ -4,7 +4,7 @@ Description=Socat VPN Client
 [Service]
 Type=simple
 EnvironmentFile=/etc/socat-vpn/env
-ExecStart=/usr/bin/socat ${DEBUG} OPENSSL-CONNECT:${HOSTNAME}:${PORT},cert=${CLIENT_CERT},key=${CLIENT_KEY},cafile=${CLIENT_CA},commonName=${COMMON_NAME} TUN:${CLIENT_ADDR},tun-name=${TUN_NAME},iff-up
+ExecStart=/usr/bin/socat ${DEBUG} TUN:${CLIENT_ADDR},tun-name=${TUN_NAME},iff-up OPENSSL-CONNECT:${HOSTNAME}:${PORT},cert=${CLIENT_CERT},key=${CLIENT_KEY},cafile=${CLIENT_CA},commonName=${COMMON_NAME}
 ExecStartPost=/sbin/ip link set dev ${TUN_NAME} mtu ${MTU} ; \
               /sbin/ip rule add table ${TABLE_ID} ; \
               /sbin/ip rule add to ${HOSTNAME} pref ${PRIORITY} ; \
